@@ -4,13 +4,15 @@ import { UserService } from 'src/service/user.service';
 import { User } from 'src/schemas/user.schema';
 import { AuthGuard } from 'src/auth/auth.guard';
 import * as bcrypt from 'bcrypt';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+
+ApiTags('users')
 @Controller('users')
 export class UserController {
     private readonly logger = new Logger(UserController.name);
     constructor(private readonly userService: UserService) { }
 
-    @UseGuards(AuthGuard)
     @Post()
     async create(@Body() createUserDto: CreateUserDto): Promise<User> {
         this.logger.log(`creating user with data ${JSON.stringify(createUserDto)}`);
@@ -25,6 +27,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Get()
     async findAll(): Promise<User[]> {
         this.logger.log(`find all data`);
@@ -39,6 +42,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Put('name/:id')
     async updateName(@Param('id') id: string, @Body() name: UpdateNameUserDto): Promise<User> {
         this.logger.log(`update name with data ${JSON.stringify(name)}`);
@@ -53,6 +57,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Put('password/:id')
     async updatePassword(@Param('id') id: string, @Body() updatePasswordUserDto: UpdatePasswordUserDto): Promise<User> {
         this.logger.log(`update password with data ${JSON.stringify(updatePasswordUserDto)}`);
@@ -78,6 +83,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Get('active')
     async findActiveUsers(): Promise<User[]> {
         this.logger.log(`find active users`);
@@ -92,6 +98,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Get('active/pagination')
     async findActiveUsersWithPagination(@Query('page') page: number, @Query('limit') limit: number): Promise<User[]> {
         this.logger.log(`find active users with pagination`);
@@ -106,6 +113,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Get(':id')
     async findOne(@Param('id') id: string): Promise<User> {
         this.logger.log(`find user with id ${id}`);
@@ -120,6 +128,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Get('active/:id')
     async findActiveUserById(@Param('id') id: string): Promise<User> {
         this.logger.log(`find active user with id ${id}`);
@@ -134,6 +143,7 @@ export class UserController {
     }
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth("access-token")
     @Delete(':id')
     async delete(@Param('id') id: string): Promise<User> {
         this.logger.log(`delete user with id ${id}`);

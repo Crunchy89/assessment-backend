@@ -19,6 +19,8 @@ const user_dto_1 = require("../dto/user.dto");
 const user_service_1 = require("../service/user.service");
 const auth_guard_1 = require("../auth/auth.guard");
 const bcrypt = require("bcrypt");
+const swagger_1 = require("@nestjs/swagger");
+(0, swagger_1.ApiTags)('users');
 let UserController = UserController_1 = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -141,7 +143,6 @@ let UserController = UserController_1 = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -150,6 +151,7 @@ __decorate([
 ], UserController.prototype, "create", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -157,6 +159,7 @@ __decorate([
 ], UserController.prototype, "findAll", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Put)('name/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -166,6 +169,7 @@ __decorate([
 ], UserController.prototype, "updateName", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Put)('password/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -175,6 +179,7 @@ __decorate([
 ], UserController.prototype, "updatePassword", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Get)('active'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -182,6 +187,7 @@ __decorate([
 ], UserController.prototype, "findActiveUsers", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Get)('active/pagination'),
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
@@ -191,6 +197,7 @@ __decorate([
 ], UserController.prototype, "findActiveUsersWithPagination", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -199,6 +206,7 @@ __decorate([
 ], UserController.prototype, "findOne", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Get)('active/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -207,6 +215,7 @@ __decorate([
 ], UserController.prototype, "findActiveUserById", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)("access-token"),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
