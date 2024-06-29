@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Expose the port on which the Nest.js application will run
-EXPOSE 3000
+EXPOSE 3000/tcp
 
 # Start the Nest.js application
-CMD [ "node", "dist/main" ]
+CMD [ "node", "dist/main.js" ]
