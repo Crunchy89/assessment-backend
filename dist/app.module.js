@@ -12,6 +12,7 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_module_1 = require("./module/user.module");
+const auth_module_1 = require("./module/auth.module");
 const dotenv = require("dotenv");
 dotenv.config();
 let AppModule = class AppModule {
@@ -22,6 +23,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URI),
             user_module_1.UserModule,
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

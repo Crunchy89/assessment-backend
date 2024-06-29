@@ -16,11 +16,7 @@ let User = class User {
 };
 exports.User = User;
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], User.prototype, "name", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
@@ -46,8 +42,9 @@ exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
 exports.UserSchema.pre('save', async function (next) {
     this.updatedAt = new Date();
     if (this.isModified('password')) {
-        const salt = await bcrypt.genSalt();
-        this.password = await bcrypt.hash(this.password, salt);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(this.password, salt);
+        this.password = hashedPassword;
     }
     next();
 });
