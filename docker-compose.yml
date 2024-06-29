@@ -5,6 +5,3 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: nest-backend
-    volumes:
-      - .:/app
-      - /app/node_modules/bcrypt/

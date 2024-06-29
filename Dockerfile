@@ -20,4 +20,4 @@ RUN yarn build
 EXPOSE 3000/tcp
 
 # Start the Nest.js application
-CMD [ "node", "dist/main.js" ]
+CMD [ "yarn", "start:prod" ]
