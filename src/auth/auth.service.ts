@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { AuthDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
+import { User } from 'src/user/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -11,16 +12,17 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    async signIn(auth: AuthDto): Promise<{ access_token: string }> {
+    async signIn(auth: AuthDto): Promise<{ user: User, access_token: string }> {
         const user = await this.usersService.findActiveUserByEmail(auth.email);
         if (!user || user.isDeleted) {
-            throw new UnauthorizedException('Account not found');
+            throw new NotFoundException('Account not found');
         }
         if (!(await compare(auth.password, user.password))) {
-            throw new UnauthorizedException('Wrong password');
+            throw new BadRequestException('Wrong password');
         }
         const payload = { email: user.email };
         return {
+            user: user,
             access_token: await this.jwtService.signAsync(payload),
         };
     }
