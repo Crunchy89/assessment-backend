@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query, BadRequestException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query, BadRequestException, UseGuards, NotFoundException } from '@nestjs/common';
 import { CreateUserDto, UpdateNameUserDto, UpdatePasswordUserDto } from './user.dto';
 import { UserService } from './user.service';
 import { User } from './user.schema';
 import { AuthGuard } from '../auth/auth.guard';
+import { compare } from 'bcrypt';
 import * as bcrypt from 'bcrypt';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
@@ -61,13 +62,19 @@ export class UserController {
     @Put('password/:id')
     async updatePassword(@Param('id') id: string, @Body() updatePasswordUserDto: UpdatePasswordUserDto): Promise<User> {
         this.logger.log(`update password with data ${JSON.stringify(updatePasswordUserDto)}`);
+        const user = await this.userService.findOne(id);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
         const { oldPassword, newPassword, retypePassword } = updatePasswordUserDto;
 
         // Check if old password and retype password match
         if (oldPassword !== retypePassword) {
             throw new BadRequestException('Old password and retype password do not match');
         }
-
+        if (await compare(oldPassword, user.password) === false) {
+            throw new BadRequestException('Old password is incorrect');
+        }
         // Hash the new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
