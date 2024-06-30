@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query, BadRequestException, UseGuards } from '@nestjs/common';
-import { CreateUserDto, UpdateNameUserDto, UpdatePasswordUserDto } from 'src/dto/user.dto';
-import { UserService } from 'src/service/user.service';
-import { User } from 'src/schemas/user.schema';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateUserDto, UpdateNameUserDto, UpdatePasswordUserDto } from './user.dto';
+import { UserService } from './user.service';
+import { User } from './user.schema';
+import { AuthGuard } from '../auth/auth.guard';
 import * as bcrypt from 'bcrypt';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
