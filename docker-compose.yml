@@ -6,4 +6,16 @@ services:
       context: .
       dockerfile: Dockerfile
     expose:
-      - 3000:3000
+      - 3000
+    env_file:
+      - .env.docker
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=assessment
